@@ -23,7 +23,7 @@ service InitiatorService bind initiatorEP {
     init(endpoint conn, http:Request req) {
         http:Response res = new;
         log:printInfo("Initiating transaction...");
-
+ 
         transaction {
             boolean successful = callBusinessService("/stockquote2/update2", "AMZN");
             if (!successful) {
@@ -55,14 +55,13 @@ function callBusinessService(string pathSegment, string symbol) returns boolean 
 
 // BizClient connector
 
-type BizClientConfig {
+type BizClientConfig record {
     string url;
 };
 
 type BizClientEP object {
-    private {
-        http:Client httpClient;
-    }
+
+    http:Client httpClient;
 
     function init(BizClientConfig conf) {
         endpoint http:Client httpEP { url: conf.url, timeoutMillis: 1000 };
@@ -77,9 +76,8 @@ type BizClientEP object {
 };
 
 type BizClient object {
-    private {
-        BizClientEP clientEP;
-    }
+        
+    BizClientEP clientEP;
 
     function updateStock(string pathSegment, json bizReq) returns json|error {
         endpoint http:Client httpClient = self.clientEP.httpClient;

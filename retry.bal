@@ -21,7 +21,7 @@ service<http:Service> retryDemoService bind { port: 9090 } {
         path: "/"
     }
     invokeEndpoint(endpoint caller, http:Request request) {
-        var backendResponse = backendClientEP->get("/hello", message = request);
+        var backendResponse = backendClientEP->get("/hello", message = untaint request);
         match backendResponse {            
             http:Response response => {
                 caller->respond(response) but {

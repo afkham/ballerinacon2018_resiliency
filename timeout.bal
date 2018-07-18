@@ -3,7 +3,7 @@ import ballerina/log;
 import ballerina/runtime;
 
 endpoint http:Client backendClientEP {
-    url: "http://localhost:8081",
+    url: "http://localhost:8080",
     timeoutMillis: 2000
 };
 
@@ -16,7 +16,7 @@ service<http:Service> TimeoutDemoService bind { port: 9090 } {
         path: "/"
     }
     invokeEndpoint(endpoint caller, http:Request request) {
-        var backendResponse = backendClientEP->get("/hello", message = request);
+        var backendResponse = backendClientEP->get("/hello", message = untaint request);
         match backendResponse {            
             http:Response response => {
                 caller->respond(response) but {
@@ -33,5 +33,24 @@ service<http:Service> TimeoutDemoService bind { port: 9090 } {
                 };
             }
         }
+    }
+}
+
+@http:ServiceConfig { basePath: "/hello" }
+service<http:Service> mockHelloService bind { port: 8080 } {
+    @http:ResourceConfig {
+        methods: ["GET"],
+        path: "/"
+    }
+    sayHello(endpoint caller, http:Request req) {
+
+        // Simulate a delay
+        runtime:sleep(5000);       
+
+        http:Response res = new;
+        res.setPayload("Hello World!!!");
+        caller->respond(res) but {
+            error e => log:printError("Error sending response from mock service", err = e)
+        };
     }
 }

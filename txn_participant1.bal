@@ -7,7 +7,7 @@ endpoint http:Listener participantEP {
     port:8889
 };
 
-type StockQuoteUpdateRequest {
+type StockQuoteUpdateRequest record {
     string symbol;
     float price;
 };
