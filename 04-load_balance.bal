@@ -14,7 +14,7 @@ endpoint http:LoadBalanceClient lbBackendEP {
 };
 
 @http:ServiceConfig {
-    basePath: "/lb"
+    basePath: "/loadbalance"
 }
 service<http:Service> loadBalancerDemoService bind { port: 9090 } {
     @http:ResourceConfig {

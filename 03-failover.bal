@@ -14,7 +14,7 @@ endpoint http:FailoverClient foBackendEP {
     ]};
     
 @http:ServiceConfig {
-    basePath: "/fo"
+    basePath: "/failover"
 }
 service<http:Service> failoverDemoService bind { port: 9090 } {
     @http:ResourceConfig {
