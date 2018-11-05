@@ -125,10 +125,48 @@ ballerina run 06-txn_participant2.bal
 ```
 
 ```
-curl http://localhost:9090/
+curl http://localhost:9090/transaction
 ```
 
 ### Output
+
+Initiator
 ```
-Idle timeout triggered before initiating inbound response
+2018-11-05 18:13:57,112 INFO  [] - Initiating transaction...
+2018-11-05 18:13:57,120 INFO  [ballerina/transactions] - Created transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+2018-11-05 18:13:57,753 INFO  [ballerina/transactions] - Registered remote participant: ab398519-35a3-4fe8-a983-56cf95512468:1 for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+2018-11-05 18:13:58,122 INFO  [ballerina/transactions] - Registered remote participant: 059b3890-32ac-42a1-be3f-a64556dd907a:1 for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+2018-11-05 18:13:58,237 INFO  [] - Got response from bizservice
+2018-11-05 18:13:58,241 INFO  [ballerina/transactions] - Running 2-phase commit for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1
+2018-11-05 18:13:58,248 INFO  [ballerina/transactions] - Preparing remote participant: ab398519-35a3-4fe8-a983-56cf95512468:1
+2018-11-05 18:13:58,250 INFO  [ballerina/transactions] - Preparing remote participant: 059b3890-32ac-42a1-be3f-a64556dd907a:1
+2018-11-05 18:13:58,272 INFO  [ballerina/transactions] - Remote participant: 059b3890-32ac-42a1-be3f-a64556dd907a:1 prepared
+2018-11-05 18:13:58,284 INFO  [ballerina/transactions] - Remote participant: ab398519-35a3-4fe8-a983-56cf95512468:1 prepared
+2018-11-05 18:13:58,286 INFO  [ballerina/transactions] - Notify(commit) remote participant: http://10.100.1.182:60453/balcoordinator/participant/2pc/1
+2018-11-05 18:13:58,286 INFO  [ballerina/transactions] - Notify(commit) remote participant: http://10.100.1.182:60455/balcoordinator/participant/2pc/1
+2018-11-05 18:13:58,300 INFO  [ballerina/transactions] - Remote participant: ab398519-35a3-4fe8-a983-56cf95512468:1 committed
+2018-11-05 18:13:58,303 INFO  [ballerina/transactions] - Remote participant: 059b3890-32ac-42a1-be3f-a64556dd907a:1 committed
+```
+Participant 1
+```
+2018-11-05 18:13:57,579 INFO  [] - Received update stockquote request2
+2018-11-05 18:13:57,590 INFO  [ballerina/transactions] - Registering for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1 with coordinator: http://10.100.1.182:60454/balcoordinator/initiator/1/register
+2018-11-05 18:13:57,757 INFO  [ballerina/transactions] - Registered with coordinator for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+2018-11-05 18:13:57,758 INFO  [] - Update stock quote request received. symbol:AMZN, price:244.4755702024119
+2018-11-05 18:13:58,235 INFO  [] -
+2018-11-05 18:13:58,276 INFO  [ballerina/transactions] - Prepare received for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1
+2018-11-05 18:13:58,277 INFO  [ballerina/transactions] - Prepared transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+2018-11-05 18:13:58,294 INFO  [ballerina/transactions] - Notify(commit) received for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1
+```
+
+Participant 2
+```
+2018-11-05 18:13:57,868 INFO  [ballerina/transactions] - Registering for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1 with coordinator: http://10.100.1.182:60454/balcoordinator/initiator/1/register
+2018-11-05 18:13:58,136 INFO  [ballerina/transactions] - Registered with coordinator for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+Inserted count:1
+2018-11-05 18:13:58,211 INFO  [] -
+2018-11-05 18:13:58,266 INFO  [ballerina/transactions] - Prepare received for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1
+2018-11-05 18:13:58,267 INFO  [ballerina/transactions] - Prepared transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027
+2018-11-05 18:13:58,294 INFO  [ballerina/transactions] - Notify(commit) received for transaction: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1
+##### Committed: b6f8c604-f40e-41a5-93cd-6f0fa599e027:1
 ```

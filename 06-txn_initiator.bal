@@ -5,14 +5,14 @@ import ballerina/http;
 import ballerina/runtime;
 
 endpoint http:Listener initiatorEP {
-    port: 8080
+    port: 9090
 };
 
 string host = "127.0.0.1";
 int port = 8889;
 
 @http:ServiceConfig {
-    basePath: "/"
+    basePath: "/transaction"
 }
 service InitiatorService bind initiatorEP {
 

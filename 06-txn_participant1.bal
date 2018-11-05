@@ -28,11 +28,11 @@ service<http:Service> StockquoteService2 bind participantEP {
         log:printInfo("Received update stockquote request2");
         http:Response res = new;
         transaction {
-            string msg = io:sprintf("Update stock quote request received. symbol:%j, price:%j",
+            string msg = io:sprintf("Update stock quote request received. symbol:%s, price:%s",
                                     untaint stockQuoteUpdate.symbol, untaint stockQuoteUpdate.price);
             log:printInfo(msg);
 
-            string pathSeqment = io:sprintf("/update/%j/%j", untaint stockQuoteUpdate.symbol, untaint stockQuoteUpdate.price);
+            string pathSeqment = io:sprintf("/update/%s/%s", untaint stockQuoteUpdate.symbol, untaint stockQuoteUpdate.price);
             var result = participant2EP->get(pathSeqment);
             json jsonRes;
             match result {
