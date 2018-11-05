@@ -57,12 +57,13 @@ curl http://localhost:9090/failover
 Mock service invoked.
 ```
 
-## Sample 4: Circuit Breaker
+## Sample 4: Load Balance
 ### How to run
 ```
 ballerina run 04-load_balance.bal
 ```
 
+Repeat:
 ```
 curl http://localhost:9090/loadbalance
 ```
@@ -90,17 +91,41 @@ Response from mock3 service.
 Fourth run:
 
 ```
-Response from mock4 service.
+Response from mock1 service.
 ```
 
-## Sample 5: Distributed Transactions
+## Sample 5: Circuit Breaker
 ### How to run
 ```
-ballerina run 01-timeout.bal
+ballerina run 05-cct_breaker.bal
+ballerina run 05-cct_breaker_be.bal
+```
+
+Repeat:
+```
+curl http://localhost:9090/cctbreaker
+```
+
+### Output
+```
+2018-11-05 17:34:41,132 INFO  [ballerina/http] - CircuitBreaker failure threshold exceeded. Circuit tripped from CLOSE to OPEN state.
+2018-11-05 17:34:58,108 INFO  [ballerina/http] - CircuitBreaker reset timeout reached. Circuit switched from OPEN to HALF_OPEN state.
+2018-11-05 17:34:58,771 INFO  [ballerina/http] - CircuitBreaker trial run  was successful. Circuit switched from HALF_OPEN to CLOSE state.
+2018-11-05 17:35:03,131 INFO  [ballerina/http] - CircuitBreaker failure threshold exceeded. Circuit tripped from CLOSE to OPEN state.
+2018-11-05 17:37:48,675 INFO  [ballerina/http] - CircuitBreaker reset timeout reached. Circuit switched from OPEN to HALF_OPEN state.
+2018-11-05 17:37:50,384 INFO  [ballerina/http] - CircuitBreaker trial run  was successful. Circuit switched from HALF_OPEN to CLOSE state.
+```
+
+## Sample 6: Distributed Transactions
+### How to run
+```
+ballerina run 06-txn_initiator.bal
+ballerina run 06-txn_participant1.bal
+ballerina run 06-txn_participant2.bal
 ```
 
 ```
-curl http://localhost:9090/timeout
+curl http://localhost:9090/
 ```
 
 ### Output

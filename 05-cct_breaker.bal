@@ -28,7 +28,7 @@ endpoint http:Client backendClientEP {
     timeoutMillis: 2000
 };
 @http:ServiceConfig {
-    basePath: "/cb"
+    basePath: "/cctbreaker"
 }
 service<http:Service> circuitbreaker bind { port: 9090 } {
     @http:ResourceConfig {
